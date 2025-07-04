@@ -110,7 +110,7 @@
 
         .header {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
             margin-top: 3rem;
             color: white;
         }
@@ -437,7 +437,7 @@
     <nav class="sidebar">
         <ul>
             <li><a href="#" class="active">Arabic Alphabet Flashcards</a></li>
-            <li><a href="#">Arabic Alphabet with Vowels Flashcards</a></li>
+            <li><a href="alphabet_with_vowels.html">Arabic Alphabet with Vowels Flashcards</a></li>
             <li><a href="#">Letter Forms</a></li>
             <li><a href="#">3-Letter Root Words</a></li>
             <li><a href="#">ETC</a></li>
@@ -448,7 +448,7 @@
             <h1>Arabic Alphabet Flashcards</h1>
             <p>Click to flip and learn. Select specific letters for more focused practice.</p>
             <div style="margin-top: 1rem; display: inline-block;">
-                <button onclick="toggleSelector()" style="padding: 0.5rem 1rem; font-weight: 600; border-radius: 8px; background: #81c784; background: linear-gradient(180deg, #93d696 0%, #77c27b 100%); text-shadow: 1px 1px 2px #487a4a; color: white; border-color:rgba(255, 255, 255, 0.2); cursor: pointer;">Select Specific Letters</button>
+                <button onclick="toggleSelector()" style="padding: 0.5rem 1rem; margin-bottom: 10px; font-weight: 600; border-radius: 8px; background: #81c784; background: linear-gradient(180deg, #93d696 0%, #77c27b 100%); text-shadow: 1px 1px 2px #487a4a; color: white; border-color:rgba(255, 255, 255, 0.2); cursor: pointer;">Select Specific Letters</button>
             </div>
             <div style = "display: inline-block;">
               <div style="width: 70px; display: inline-block; margin-left: 20px; text-shadow: 1px 1px 2px #0d470f;">
@@ -507,7 +507,7 @@
             { arabic: 'ت', transliteration: 'Taa', audioFile: 'taa.mp3' },
             { arabic: 'ث', transliteration: 'Thaa', audioFile: 'thaa.mp3' },
             { arabic: 'ج', transliteration: 'Jeem', audioFile: 'jeem.mp3' },
-            { arabic: 'ح', transliteration: 'Haa', audioFile: 'haa.mp3' },
+            { arabic: 'ح', transliteration: 'Ḥaa', audioFile: 'haa.mp3' },
             { arabic: 'خ', transliteration: 'Khaa', audioFile: 'khaa.mp3' },
             { arabic: 'د', transliteration: 'Daal', audioFile: 'daal.mp3' },
             { arabic: 'ذ', transliteration: 'Thaal', audioFile: 'thaal.mp3' },
@@ -515,11 +515,11 @@
             { arabic: 'ز', transliteration: 'Zaay', audioFile: 'zaay.mp3' },
             { arabic: 'س', transliteration: 'Seen', audioFile: 'seen.mp3' },
             { arabic: 'ش', transliteration: 'Sheen', audioFile: 'sheen.mp3' },
-            { arabic: 'ص', transliteration: 'Saad', audioFile: 'saad.mp3' },
-            { arabic: 'ض', transliteration: 'Daad', audioFile: 'daad.mp3' },
-            { arabic: 'ط', transliteration: 'Taa', audioFile: 'taa2.mp3' },
-            { arabic: 'ظ', transliteration: 'Dhaa', audioFile: 'dhaa.mp3' },
-            { arabic: 'ع', transliteration: 'Ayn', audioFile: 'ayn.mp3' },
+            { arabic: 'ص', transliteration: 'Ṣaad', audioFile: 'saad.mp3' },
+            { arabic: 'ض', transliteration: 'Ḍaad', audioFile: 'daad.mp3' },
+            { arabic: 'ط', transliteration: 'Ṭaa', audioFile: 'taa2.mp3' },
+            { arabic: 'ظ', transliteration: 'Ẓaa', audioFile: 'dhaa.mp3' },
+            { arabic: 'ع', transliteration: 'ʿAyn', audioFile: 'ayn.mp3' },
             { arabic: 'غ', transliteration: 'Ghayn', audioFile: 'ghayn.mp3' },
             { arabic: 'ف', transliteration: 'Faa', audioFile: 'faa.mp3' },
             { arabic: 'ق', transliteration: 'Qaaf', audioFile: 'qaaf.mp3' },
@@ -692,7 +692,7 @@
             const savedNotes = localStorage.getItem('arabicNotes');
 
             if (!savedNotes) {
-                alert("No notes found to save.");
+                alert("You have no notes.");
                 return;
             }
 
@@ -715,14 +715,14 @@
             
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'arabic-notes.txt';
+            a.download = 'arabic-letters-notes.txt';
             a.click();
             
             URL.revokeObjectURL(url); // Clean up
         }
 
         function clearNotes() {
-            const confirmClear = confirm("Are you sure you want to delete all notes? This action cannot be undone.");
+            const confirmClear = confirm("Are you sure you want to clear all notes? This action cannot be undone.");
             if (!confirmClear) return;
 
             // Remove from localStorage
@@ -737,8 +737,6 @@
             document.querySelectorAll('.notes-box').forEach(box => {
                 box.value = '';
             });
-
-            alert("All notes have been cleared.");
         }
 
         let isShuffled = false;
