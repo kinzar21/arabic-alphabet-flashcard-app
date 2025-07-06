@@ -86,6 +86,7 @@
       display: flex;
       flex-direction: column;
       gap: 1rem;
+      direction: rtl;
     }
 
     .row {
@@ -410,9 +411,9 @@
     ];
 
     const vowels = [
-      { symbol: '\u064F', name: 'Damma', sound: 'oo' },
+      { symbol: '\u064E', name: 'Fatha', sound: 'a' },
       { symbol: '\u0650', name: 'Kasra', sound: 'ee' },
-      { symbol: '\u064E', name: 'Fatha', sound: 'a' }
+      { symbol: '\u064F', name: 'Damma', sound: 'oo' }
     ];
 
     const transliterationMap = {
@@ -441,7 +442,7 @@
 
       // Format notes as readable text
       let notesText = 'Arabic Alphabet With Short Vowels Notes\n';
-      notesText += '===================\n\n';
+      notesText += '======================================\n\n';
       
       validNotes.forEach(([key, value]) => {
         // Extract letter and vowel info from key
@@ -583,74 +584,82 @@
     }
 
     function renderFlashcards(letters, vowelsToUse = vowels) {
-      grid.innerHTML = '';
+  grid.innerHTML = '';
 
-      letters.forEach(letter => {
-        const row = document.createElement('div');
-        row.className = 'row';
+  const allCards = [];
 
-        vowelsToUse.forEach(vowel => {
-          const audioFile = `${letter}${vowel.name}.m4a`;
-          const card = document.createElement('div');
-          card.className = 'flashcard';
+  letters.forEach(letter => {
+    vowelsToUse.forEach(vowel => {
+      const audioFile = `${letter}${vowel.name}.m4a`;
+      const card = document.createElement('div');
+      card.className = 'flashcard';
 
-          const cardInner = document.createElement('div');
-          cardInner.className = 'card-inner';
+      const cardInner = document.createElement('div');
+      cardInner.className = 'card-inner';
 
-          const front = document.createElement('div');
-          front.className = 'card-front';
-          const span = document.createElement('span');
-          span.textContent = (vowel.symbol === '\u0650' && ['ج','ح','خ','ع','غ'].includes(letter))
-            ? (span.className = 'kasra-under', letter)
-            : letter + vowel.symbol;
-          front.appendChild(span);
+      const front = document.createElement('div');
+      front.className = 'card-front';
+      const span = document.createElement('span');
+      span.textContent = (vowel.symbol === '\u0650' && ['ج','ح','خ','ع','غ'].includes(letter))
+        ? (span.className = 'kasra-under', letter)
+        : letter + vowel.symbol;
+      front.appendChild(span);
 
-          const back = document.createElement('div');
-          back.className = 'card-back';
+      const back = document.createElement('div');
+      back.className = 'card-back';
 
-          const translit = document.createElement('div');
-          translit.textContent = transliterationMap[letter] + vowel.sound;
-          back.appendChild(translit);
+      const translit = document.createElement('div');
+      translit.textContent = transliterationMap[letter] + vowel.sound;
+      back.appendChild(translit);
 
-          const audioControls = document.createElement('div');
-          audioControls.className = 'audio-controls';
-          const button = document.createElement('button');
-          button.className = 'speaker-btn';
-          button.onclick = (e) => playAudio(e, audioFile);
-          button.innerHTML = `<svg class="speaker-icon" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>`;
-          audioControls.appendChild(button);
-          back.appendChild(audioControls);
+      const audioControls = document.createElement('div');
+      audioControls.className = 'audio-controls';
+      const button = document.createElement('button');
+      button.className = 'speaker-btn';
+      button.onclick = (e) => playAudio(e, audioFile);
+      button.innerHTML = `<svg class="speaker-icon" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>`;
+      audioControls.appendChild(button);
+      back.appendChild(audioControls);
 
-          const textarea = document.createElement('textarea');
-          textarea.className = 'notes-box';
-          const key = `${letter}${vowel.symbol}`;
-          textarea.placeholder = 'Your notes';
-          textarea.value = notes[key] || '';
-          textarea.dataset.letter = key;
-          textarea.addEventListener('input', (e) => {
-            notes[key] = e.target.value;
-          });
-          back.appendChild(textarea);
-
-          cardInner.appendChild(front);
-          cardInner.appendChild(back);
-          card.appendChild(cardInner);
-
-          card.addEventListener('click', (e) => {
-            if (
-              e.target.closest('.notes-box') ||
-              e.target.closest('.speaker-btn')
-            ) return;
-
-            card.classList.toggle('flipped');
-          });
-
-          row.appendChild(card);
-        });
-
-        grid.appendChild(row);
+      const textarea = document.createElement('textarea');
+      textarea.className = 'notes-box';
+      const key = `${letter}${vowel.symbol}`;
+      textarea.placeholder = 'Your notes';
+      textarea.value = notes[key] || '';
+      textarea.dataset.letter = key;
+      textarea.addEventListener('input', (e) => {
+        notes[key] = e.target.value;
       });
-    }
+      back.appendChild(textarea);
+
+      cardInner.appendChild(front);
+      cardInner.appendChild(back);
+      card.appendChild(cardInner);
+
+      card.addEventListener('click', (e) => {
+        if (
+          e.target.closest('.notes-box') ||
+          e.target.closest('.speaker-btn')
+        ) return;
+        card.classList.toggle('flipped');
+      });
+
+      allCards.push(card);
+    });
+  });
+
+  if (isShuffled) {
+    shuffleArray(allCards);
+  }
+
+  const row = document.createElement('div');
+  row.className = 'row'; // This flex-wraps automatically per screen width
+
+  allCards.forEach(card => row.appendChild(card));
+
+  grid.appendChild(row);
+}
+
 
     document.addEventListener('DOMContentLoaded', () => {
       const select = document.getElementById('order-select');
