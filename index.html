@@ -190,7 +190,7 @@
             font-size: 4.5rem;
             font-weight: 700;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-            color: rgb(255, 255, 255);
+            color: white;
         }
 
         .transliteration {
@@ -218,6 +218,39 @@
             justify-content: center;
             cursor: pointer;
             transition: all 0.3s ease;
+        }
+
+         .speaker-btn-front {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
+        }
+
+        .speaker-btn-front:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+            border-color: rgba(255, 255, 255, 1);
+        }
+
+        .speaker-btn-front:active {
+            transform: scale(0.95);
+        }
+
+        .speaker-btn-front .speaker-icon {
+            width: 20px;
+            height: 20px;
+            fill: white;
         }
 
         .notes-box {
@@ -377,6 +410,10 @@
 
         .flashcard.flipped:hover .card-inner {
             transform: rotateY(180deg) scale(1.02);
+        }
+
+        .card-front:hover {
+            background: linear-gradient(135deg, #f5dcff 0%, #984fac 100%);
         }
 
         @media (max-width: 768px) {
@@ -541,6 +578,11 @@
                     <div class="card-inner">
                         <div class="card-front">
                             <div class="arabic-letter">${letter.arabic}</div>
+                            <button class="speaker-btn-front" onclick="playAudio(event, '${letter.audioFile}')">
+                                <svg class="speaker-icon" viewBox="0 0 24 24">
+                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                                </svg>
+                            </button>
                         </div>
                         <div class="card-back">
                             <div class="transliteration">${letter.transliteration}</div>
