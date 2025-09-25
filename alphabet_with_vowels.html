@@ -1,690 +1,942 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Arabic Alphabet with Vowels</title>
-  <link rel="stylesheet" href="styles.css" />
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Arabic Alphabet with Vowels</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(180deg, rgb(106, 180, 112) 0%, #445941 100%);
-      min-height: 100vh;
-      padding: 2rem;
-      color: white;
-    }
+      body {
+        font-family: "Inter", sans-serif;
+        background: linear-gradient(
+          180deg,
+          rgb(106, 180, 112) 0%,
+          #445941 100%
+        );
+        min-height: 100vh;
+        padding: 2rem;
+        color: white;
+      }
 
-    .sidebar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 260px;
-      height: 100vh;
-      background-color: #234E3C;
-      padding-top: 2rem;
-      z-index: 9999;
-      display: flex;
-      flex-direction: column;
-    }
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 260px;
+        height: 100vh;
+        background-color: #234e3c;
+        padding-top: 2rem;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+      }
 
-    .sidebar ul {
-      list-style-type: none;
-      padding: 0;
-      margin: 0;
-    }
+      .sidebar ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+      }
 
-    .sidebar ul li a {
-      display: block;
-      padding: 1rem 1.5rem;
-      color: white;
-      text-decoration: none;
-      font-weight: 500;
-      font-size: 1rem;
-      border-left: 4px solid transparent;
-      transition: background 0.3s, border-left 0.3s;
-    }
+      .sidebar ul li a {
+        display: block;
+        padding: 1rem 1.5rem;
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 1rem;
+        border-left: 4px solid transparent;
+        transition: background 0.3s, border-left 0.3s;
+      }
 
-    .sidebar ul li a:hover,
-    .sidebar ul li a.active {
-      background-color: #2F6D53;
-      border-left: 4px solid #A0E5BA;
-    }
+      .sidebar ul li a:hover,
+      .sidebar ul li a.active {
+        background-color: #2f6d53;
+        border-left: 4px solid #a0e5ba;
+      }
 
-    .container {
-      margin-left: 260px;
-      padding: 2rem;
-    }
+      .container {
+        margin-left: 260px;
+        padding: 2rem;
+      }
 
-    .header {
-      text-align: center;
-      margin-bottom: 3rem;
-      color: white;
-    }
+      .header {
+        text-align: center;
+        margin-bottom: 3rem;
+        color: white;
+      }
 
-    .header h1 {
-      font-size: 3rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-      text-shadow: 0 2px 4px rgba(44, 11, 60, 0.7);
-    }
+      .header h1 {
+        font-size: 3rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        text-shadow: 0 2px 4px rgba(44, 11, 60, 0.7);
+      }
 
-    .header p {
-      font-size: 2rem;
-      font-weight: 300;
-      text-shadow: 0 2px 4px rgba(44, 11, 60, 0.7);
-    }
+      .header p {
+        font-size: 2rem;
+        font-weight: 300;
+        text-shadow: 0 2px 4px rgba(44, 11, 60, 0.7);
+      }
 
-    .grid {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      direction: rtl;
-    }
+      .grid {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        direction: rtl;
+      }
 
-    .row {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
+      .row {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
 
-    .flashcard {
-      width: 180px;
-      height: 240px;
-      perspective: 1000px;
-      cursor: pointer;
-    }
+      .flashcard {
+        width: 180px;
+        height: 240px;
+        perspective: 1000px;
+        cursor: pointer;
+      }
 
-    .card-inner {
-      width: 100%;
-      height: 100%;
-      transition: transform 0.5s;
-      transform-style: preserve-3d;
-      position: relative;
-    }
+      .card-inner {
+        width: 100%;
+        height: 100%;
+        transition: transform 0.5s;
+        transform-style: preserve-3d;
+        position: relative;
+      }
 
-    .flashcard.flipped .card-inner {
-      transform: rotateY(180deg);
-    }
+      .flashcard.flipped .card-inner {
+        transform: rotateY(180deg);
+      }
 
-    .card-front, .card-back {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 5rem;
-      background: linear-gradient(135deg, #acffa9 0%, #2d6526 100%);
-      color: white;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-      border: 2px solid white;
-    }
+      .card-front,
+      .card-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 5rem;
+        background: linear-gradient(135deg, #acffa9 0%, #2d6526 100%);
+        color: white;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        border: 2px solid white;
+      }
 
-    .card-back {
-      transform: rotateY(180deg);
-      background: linear-gradient(135deg, #ffffff 0%, #e3c1ff 100%);
-      color: #2d3748;
-      flex-direction: column;
-      font-size: 1.5rem;
-      padding: 1rem;
-      justify-content: space-around;
-    }
+      .card-back {
+        transform: rotateY(180deg);
+        background: linear-gradient(135deg, #ffffff 0%, #e3c1ff 100%);
+        color: #2d3748;
+        flex-direction: column;
+        font-size: 1.5rem;
+        padding: 1rem;
+        justify-content: space-around;
+      }
 
-    .dropdown-wrapper {
-            margin-top: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
+      .dropdown-wrapper {
+        margin-top: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
 
-        #order-select {
-            padding: 0.5rem 1rem;
-            font-size: 1rem;
-            border-radius: 10px;
-            border-color:rgba(255, 255, 255, 0.2);
-            box-shadow:  1px 1px rgba(255, 255, 255, 0.4);
-            background: #81c784;
-            color: rgb(255, 255, 255);
-            font-weight: 500;
-            cursor: pointer;
-            appearance: none;
-            outline: none;
-            backdrop-filter: blur(4px);
-            text-align: center;
-            text-align-last: center;
-        }
+      #order-select {
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        border-radius: 10px;
+        border-color: rgba(255, 255, 255, 0.2);
+        box-shadow: 1px 1px rgba(255, 255, 255, 0.4);
+        background: #81c784;
+        color: rgb(255, 255, 255);
+        font-weight: 500;
+        cursor: pointer;
+        appearance: none;
+        outline: none;
+        backdrop-filter: blur(4px);
+        text-align: center;
+        text-align-last: center;
+      }
 
-        #order-select:hover {
-            color: rgba(0, 0, 0, 0.398);
-        }
+      #order-select:hover {
+        color: rgba(0, 0, 0, 0.398);
+      }
 
-        #order-select option {
-            color: rgb(0, 0, 0);
-        }
+      #order-select option {
+        color: rgb(0, 0, 0);
+      }
 
-        #shuffle-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 0.3rem;
-            transition: transform 0.2s ease;
-        }
+      #shuffle-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0.3rem;
+        transition: transform 0.2s ease;
+      }
 
-        #shuffle-btn:hover {
-            transform: rotate(30deg) scale(1.1);
-            color: black;
-        }
+      #shuffle-btn:hover {
+        transform: rotate(30deg) scale(1.1);
+        color: black;
+      }
 
-        #shuffle-btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
+      #shuffle-btn:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
 
-        #reload-icon {
-            width: 24px;
-            height: 24px;
-            fill: white;
-        }
+      #reload-icon {
+        width: 24px;
+        height: 24px;
+        fill: white;
+      }
 
-        .tooltip-container {
-            position: relative;
-            display: inline-block;
-        }
+      .tooltip-container {
+        position: relative;
+        display: inline-block;
+      }
 
-        .tooltip-text {
-            visibility: hidden;
-            opacity: 0;
-            width: max-content;
-            background-color: rgba(0, 0, 0, 0.65);
-            color: #fff;
-            text-align: center;
-            padding: 4px 8px;
-            border-radius: 6px;
-            position: absolute;
-            z-index: 1;
-            bottom: 120%;
-            left: 50%;
-            transform: translateX(-50%);
-            transition: opacity 0.3s ease;
-            font-size: 0.85rem;
-            pointer-events: none;
-            white-space: nowrap;
-        }
+      .tooltip-text {
+        visibility: hidden;
+        opacity: 0;
+        width: max-content;
+        background-color: rgba(0, 0, 0, 0.65);
+        color: #fff;
+        text-align: center;
+        padding: 4px 8px;
+        border-radius: 6px;
+        position: absolute;
+        z-index: 1;
+        bottom: 120%;
+        left: 50%;
+        transform: translateX(-50%);
+        transition: opacity 0.3s ease;
+        font-size: 0.85rem;
+        pointer-events: none;
+        white-space: nowrap;
+      }
 
-        .selector-panel {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 1rem;
-            border-radius: 10px;
-            margin: 1rem 0;
-            display: none;
-            color: white;
-        }
-        .letter-checkboxes {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-top: 0.5rem;
-        }
-        .letter-checkboxes label {
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-            background: rgba(255, 255, 255, 0.15);
-            padding: 0.3rem 0.6rem;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-        .letter-checkboxes input[type="checkbox"] {
-            accent-color: #eaffe7;
-            cursor: pointer;
-        }
+      .selector-panel {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 1rem;
+        border-radius: 10px;
+        margin: 1rem 0;
+        display: none;
+        color: white;
+      }
+      .letter-checkboxes {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+      }
+      .letter-checkboxes label {
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+        background: rgba(255, 255, 255, 0.15);
+        padding: 0.3rem 0.6rem;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+      .letter-checkboxes input[type="checkbox"] {
+        accent-color: #eaffe7;
+        cursor: pointer;
+      }
 
-    
+      .flashcard:hover .card-inner {
+        transform: scale(1.02);
+      }
 
-    .flashcard:hover .card-inner {
-      transform: scale(1.02);
-    }
+      .flashcard.flipped:hover .card-inner {
+        transform: rotateY(180deg) scale(1.02);
+      }
 
-    .flashcard.flipped:hover .card-inner {
-      transform: rotateY(180deg) scale(1.02);
-    }
+      .card-front:hover {
+            background: linear-gradient(135deg, #f5dcff 0%, #984fac 100%);
+      }
 
-    .audio-controls {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
+      .audio-controls {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
 
-    .speaker-btn {
-      background: rgba(0,0,0,0.1);
-      border: 2px solid rgba(0,0,0,1);
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
+      .speaker-btn-front {
+        position: absolute;
+        bottom: 15px;
+        right: 15px;
+        background: rgba(255, 255, 255, 0.2);
+        border: 2px solid rgba(255, 255, 255, 0.8);
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(4px);
+      }
 
-    .speaker-btn:hover {
-      background: rgba(0,0,0,0.2);
-      transform: scale(1.1);
-    }
+      .speaker-btn-front:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: scale(1.1);
+        border-color: rgba(255, 255, 255, 1);
+      }
 
-    .speaker-btn:active {
-      transform: scale(0.95);
-    }
+      .speaker-btn-front:active {
+        transform: scale(0.95);
+      }
 
-    button:active {
-      opacity: .85;
-    }
+      .speaker-btn-front .speaker-icon {
+        width: 20px;
+        height: 20px;
+        fill: white;
+      }
 
-    .speaker-icon {
-      width: 24px;
-      height: 24px;
-      fill: #2d3748;
-    }
+      .speaker-btn {
+        background: rgba(0, 0, 0, 0.1);
+        border: 2px solid rgba(0, 0, 0, 1);
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
 
-    .notes-box {
-      width: 80%;
-      height: 60px;
-      resize: none;
-      border: 1px solid rgba(0,0,0,.1);
-      border-radius: 10px;
-      padding: 0.5rem;
-      font-size: 1rem;
-      font-family: 'Inter', sans-serif;
-      background: rgba(255, 255, 255, 0.641);
-      color: #2d3748;
-      outline: none;
-      box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
-      transition: all 0.2s ease;
-      direction: ltr;
-    }
+      .speaker-btn:hover {
+        background: rgba(0, 0, 0, 0.2);
+        transform: scale(1.1);
+      }
 
-    .notes-box:focus {
-      background: white;
-      box-shadow: 0 0 0 2px rgb(214, 188, 255);
-    }
+      .speaker-btn:active {
+        transform: scale(0.95);
+      }
 
-    .vowel-letter {
-      font-size: 4rem;
-      position: relative;
-    }
+      button:active {
+        opacity: 0.85;
+      }
 
-    .kasra-under {
-      display: inline-block;
-      position: relative;
-    }
+      .speaker-icon {
+        width: 24px;
+        height: 24px;
+        fill: #2d3748;
+      }
 
-    .kasra-under::after {
-      content: '\0650';
-      position: absolute;
-      bottom: -0.6em;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 3rem;
-    }
-  </style>
-</head>
-<body>
-  <nav class="sidebar">
-    <ul>
-      <li><a href="index.html">Arabic Alphabet Flashcards</a></li>
-      <li><a href="alphabet_with_vowels.html" class="active">Arabic Alphabet with Vowels Flashcards</a></li>
-      <li><a href="working_on_it.html">Letter Forms</a></li>
-      <li><a href="working_on_it.html">3-Letter Root Words</a></li>
-      <li><a href="working_on_it.html">ETC</a></li>
-    </ul>
-  </nav>
+      .notes-box {
+        width: 80%;
+        height: 60px;
+        resize: none;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        padding: 0.5rem;
+        font-size: 1rem;
+        font-family: "Inter", sans-serif;
+        background: rgba(255, 255, 255, 0.641);
+        color: #2d3748;
+        outline: none;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        transition: all 0.2s ease;
+        direction: ltr;
+      }
 
-  <div class="container">
-    <div class="header">
-      <h1>Arabic Alphabet with Vowels</h1>
-      <p>Click to flip and learn. Select specific letters/vowels for more focused practice.</p>
-      <div style="margin-top: 1rem; display: inline-block;">
-                <button onclick="toggleSelector()" style="padding: 0.5rem 1rem; margin-bottom: 10px; font-weight: 600; border-radius: 8px; background: #81c784; background: linear-gradient(180deg, #93d696 0%, #77c27b 100%); text-shadow: 1px 1px 2px #487a4a; color: white; border-color:rgba(255, 255, 255, 0.2); cursor: pointer;">Select Specific Letters/Vowels</button>
-            </div>
-            <div style = "display: inline-block;">
-              <div style="width: 70px; display: inline-block; margin-left: 20px; text-shadow: 1px 1px 2px #0d470f;">
-                Practice 
-              </div>
-              <div style="display: inline-block;">
-                <div class="dropdown-wrapper">
-                  <select id="order-select">
-                    <option value="in" selected>In order</option>
-                    <option value="out">Out of order</option>
-                  </select>
-                  <button id="shuffle-btn" title="Reshuffle" style="display: none;">
-                    <div class="tooltip-container">
-                        <svg id="reload-icon" viewBox="0 0 24 24">
-                            <path fill="white" d="M17.65 6.35A7.95 7.95 0 0 0 12 4V1L7 6l5 5V7c2.76 0 5 2.24 5 5a5 5 0 0 1-1.68 3.73l1.42 1.42A6.98 6.98 0 0 0 19 12c0-1.93-.78-3.68-2.05-4.95zM6.35 17.65A7.95 7.95 0 0 0 12 20v3l5-5-5-5v3c-2.76 0-5-2.24-5-5 0-1.38.56-2.63 1.46-3.54L5.64 8.64A6.978 6.978 0 0 0 5 12c0 1.93.78 3.68 2.05 4.95z"/>
-                        </svg>
-                        <span class="tooltip-text">Reshuffle</span>
-                    </div>
-                  </button>
+      .notes-box:focus {
+        background: white;
+        box-shadow: 0 0 0 2px rgb(214, 188, 255);
+      }
+
+      .vowel-letter {
+        font-size: 4rem;
+        position: relative;
+      }
+
+      .kasra-under {
+        display: inline-block;
+        position: relative;
+      }
+
+      .kasra-under::after {
+        content: "\0650";
+        position: absolute;
+        bottom: -0.6em;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 3rem;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="sidebar">
+      <ul>
+        <li><a href="index.html">Arabic Alphabet Flashcards</a></li>
+        <li>
+          <a href="alphabet_with_vowels.html" class="active"
+            >Arabic Alphabet with Vowels Flashcards</a
+          >
+        </li>
+        <li><a href="working_on_it.html">Letter Forms</a></li>
+        <li><a href="working_on_it.html">3-Letter Root Words</a></li>
+        <li><a href="working_on_it.html">ETC</a></li>
+      </ul>
+    </nav>
+
+    <div class="container">
+      <div class="header">
+        <h1>Arabic Alphabet with Vowels</h1>
+        <p>
+          Click to flip and learn. Select specific letters/vowels for more
+          focused practice.
+        </p>
+        <div style="margin-top: 1rem; display: inline-block">
+          <button
+            onclick="toggleSelector()"
+            style="
+              padding: 0.5rem 1rem;
+              margin-bottom: 10px;
+              font-weight: 600;
+              border-radius: 8px;
+              background: #81c784;
+              background: linear-gradient(180deg, #93d696 0%, #77c27b 100%);
+              text-shadow: 1px 1px 2px #487a4a;
+              color: white;
+              border-color: rgba(255, 255, 255, 0.2);
+              cursor: pointer;
+            "
+          >
+            Select Specific Letters/Vowels
+          </button>
+        </div>
+        <div style="display: inline-block">
+          <div
+            style="
+              width: 70px;
+              display: inline-block;
+              margin-left: 20px;
+              text-shadow: 1px 1px 2px #0d470f;
+            "
+          >
+            Practice
+          </div>
+          <div style="display: inline-block">
+            <div class="dropdown-wrapper">
+              <select id="order-select">
+                <option value="in" selected>In order</option>
+                <option value="out">Out of order</option>
+              </select>
+              <button id="shuffle-btn" title="Reshuffle" style="display: none">
+                <div class="tooltip-container">
+                  <svg id="reload-icon" viewBox="0 0 24 24">
+                    <path
+                      fill="white"
+                      d="M17.65 6.35A7.95 7.95 0 0 0 12 4V1L7 6l5 5V7c2.76 0 5 2.24 5 5a5 5 0 0 1-1.68 3.73l1.42 1.42A6.98 6.98 0 0 0 19 12c0-1.93-.78-3.68-2.05-4.95zM6.35 17.65A7.95 7.95 0 0 0 12 20v3l5-5-5-5v3c-2.76 0-5-2.24-5-5 0-1.38.56-2.63 1.46-3.54L5.64 8.64A6.978 6.978 0 0 0 5 12c0 1.93.78 3.68 2.05 4.95z"
+                    />
+                  </svg>
+                  <span class="tooltip-text">Reshuffle</span>
                 </div>
-              </div>
+              </button>
             </div>
-            <div style="display: inline-block; margin-left: 20px;">
-                <button onclick="flipAllCards()" style="margin-left: .5rem; padding: 0.5rem 1rem; font-weight: 600; border-radius: 8px; background: linear-gradient(180deg, #93d696 0%, #77c27b 100%); text-shadow: 1px 1px 2px #487a4a; color: white; border-color:rgba(255, 255, 255, 0.2); cursor: pointer;">
-                    Flip All Cards
-                </button>
-                <button onclick="downloadNotes()" style="margin-left: 1.5rem; padding: 0.5rem 1rem; font-weight: 600; border-radius: 8px; background: rgb(38, 143, 64); background: linear-gradient(310deg, #93d696 0%, #6ab26d 100%); text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); color: white; border-color:rgba(0, 0, 0, 0.1); cursor: pointer;">
-                    Download Notes
-                </button>
-                <button onclick="clearNotes()" style="margin-left: .25rem; padding: 0.5rem 1rem; font-weight: 600; border-radius: 8px; background: linear-gradient(135deg, #93d696 0%, #6ab26d 100%); text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); color: white; border-color:rgba(0, 0, 0, 0.1); cursor: pointer;">
-                    Clear Notes
-                </button>
-            </div>
-            <div class="selector-panel" id="selector-panel">
-                <button onclick="selectAllCheckboxes()" style="padding: 0.4rem 0.8rem; font-weight: 500; border-radius: 6px; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); border-color:rgba(110, 110, 110, 0.2); cursor: pointer; background: #0d49178c; color: white;">Select All</button>
-                <button onclick="deselectAllCheckboxes()" style="padding: 0.4rem 0.8rem; font-weight: 500; border-radius: 6px; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); border-color:rgba(255, 255, 255, 0.2); cursor: pointer; background: #ffffff33; color: white;">Deselect All</button>
-                <div class="letter-checkboxes" id="checkboxes-container"></div>
-                <div class="letter-checkboxes" id="vowel-checkboxes-container" style="margin-top: 1rem;"></div>
-                <div style="margin-top: 1rem; display: flex; gap: 1rem;">
-                    <button onclick="applySelection()" style="padding: 0.5rem 1rem; font-size: 18px; font-weight: 600; border-radius: 8px; background: linear-gradient(180deg, #93d696 0%, #6cb670 100%);; color: white; border-color:rgba(255, 255, 255, 0.1); text-shadow: 1px 1px 5px rgb(15, 62, 5); cursor: pointer; margin: auto;">Start Practice</button>
-                </div>
-            </div>
+          </div>
+        </div>
+        <div style="display: inline-block; margin-left: 20px">
+          <button
+            onclick="flipAllCards()"
+            style="
+              margin-left: 0.5rem;
+              padding: 0.5rem 1rem;
+              font-weight: 600;
+              border-radius: 8px;
+              background: linear-gradient(180deg, #93d696 0%, #77c27b 100%);
+              text-shadow: 1px 1px 2px #487a4a;
+              color: white;
+              border-color: rgba(255, 255, 255, 0.2);
+              cursor: pointer;
+            "
+          >
+            Flip All Cards
+          </button>
+          <button
+            onclick="downloadNotes()"
+            style="
+              margin-left: 1.5rem;
+              padding: 0.5rem 1rem;
+              font-weight: 600;
+              border-radius: 8px;
+              background: rgb(38, 143, 64);
+              background: linear-gradient(310deg, #93d696 0%, #6ab26d 100%);
+              text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+              color: white;
+              border-color: rgba(0, 0, 0, 0.1);
+              cursor: pointer;
+            "
+          >
+            Download Notes
+          </button>
+          <button
+            onclick="clearNotes()"
+            style="
+              margin-left: 0.25rem;
+              padding: 0.5rem 1rem;
+              font-weight: 600;
+              border-radius: 8px;
+              background: linear-gradient(135deg, #93d696 0%, #6ab26d 100%);
+              text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+              color: white;
+              border-color: rgba(0, 0, 0, 0.1);
+              cursor: pointer;
+            "
+          >
+            Clear Notes
+          </button>
+        </div>
+        <div class="selector-panel" id="selector-panel">
+          <button
+            onclick="selectAllCheckboxes()"
+            style="
+              padding: 0.4rem 0.8rem;
+              font-weight: 500;
+              border-radius: 6px;
+              text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+              border-color: rgba(110, 110, 110, 0.2);
+              cursor: pointer;
+              background: #0d49178c;
+              color: white;
+            "
+          >
+            Select All
+          </button>
+          <button
+            onclick="deselectAllCheckboxes()"
+            style="
+              padding: 0.4rem 0.8rem;
+              font-weight: 500;
+              border-radius: 6px;
+              text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+              border-color: rgba(255, 255, 255, 0.2);
+              cursor: pointer;
+              background: #ffffff33;
+              color: white;
+            "
+          >
+            Deselect All
+          </button>
+          <div class="letter-checkboxes" id="checkboxes-container"></div>
+          <div
+            class="letter-checkboxes"
+            id="vowel-checkboxes-container"
+            style="margin-top: 1rem"
+          ></div>
+          <div style="margin-top: 1rem; display: flex; gap: 1rem">
+            <button
+              onclick="applySelection()"
+              style="
+                padding: 0.5rem 1rem;
+                font-size: 18px;
+                font-weight: 600;
+                border-radius: 8px;
+                background: linear-gradient(180deg, #93d696 0%, #6cb670 100%);
+                color: white;
+                border-color: rgba(255, 255, 255, 0.1);
+                text-shadow: 1px 1px 5px rgb(15, 62, 5);
+                cursor: pointer;
+                margin: auto;
+              "
+            >
+              Start Practice
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="grid" id="vowel-grid"></div>
     </div>
-    <div class="grid" id="vowel-grid"></div>
-  </div>
 
-  <script>
-    const arabicLetters = [
-      'ا','ب','ت','ث','ج','ح','خ','د','ذ','ر','ز','س','ش','ص','ض','ط','ظ','ع','غ','ف','ق','ك','ل','م','ن','هـ','و','ء','ي'
-    ];
+    <script>
+      const arabicLetters = [
+        "ا",
+        "ب",
+        "ت",
+        "ث",
+        "ج",
+        "ح",
+        "خ",
+        "د",
+        "ذ",
+        "ر",
+        "ز",
+        "س",
+        "ش",
+        "ص",
+        "ض",
+        "ط",
+        "ظ",
+        "ع",
+        "غ",
+        "ف",
+        "ق",
+        "ك",
+        "ل",
+        "م",
+        "ن",
+        "هـ",
+        "و",
+        "ء",
+        "ي",
+      ];
 
-    const vowels = [
-      { symbol: '\u064E', name: 'Fatha', sound: 'a' },
-      { symbol: '\u0650', name: 'Kasra', sound: 'ee' },
-      { symbol: '\u064F', name: 'Damma', sound: 'oo' }
-    ];
+      const vowels = [
+        { symbol: "\u064E", name: "Fatha", sound: "a" },
+        { symbol: "\u0650", name: "Kasra", sound: "ee" },
+        { symbol: "\u064F", name: "Damma", sound: "oo" },
+      ];
 
-    const transliterationMap = {
-      'ا': '', 'ب': 'b', 'ت': 't', 'ث': 'th', 'ج': 'j', 'ح': 'ḥ', 'خ': 'kh', 'د': 'd',
-      'ذ': 'dh', 'ر': 'r', 'ز': 'z', 'س': 's', 'ش': 'sh', 'ص': 'ṣ', 'ض': 'ḍ', 'ط': 'ṭ',
-      'ظ': 'ẓ', 'ع': 'ʿ', 'غ': 'gh', 'ف': 'f', 'ق': 'q', 'ك': 'k', 'ل': 'l', 'م': 'm',
-      'ن': 'n', 'هـ': 'h', 'و': 'w', 'ء': '', 'ي': 'y'
-    };
+      const transliterationMap = {
+        ا: "",
+        ب: "b",
+        ت: "t",
+        ث: "th",
+        ج: "j",
+        ح: "ḥ",
+        خ: "kh",
+        د: "d",
+        ذ: "dh",
+        ر: "r",
+        ز: "z",
+        س: "s",
+        ش: "sh",
+        ص: "ṣ",
+        ض: "ḍ",
+        ط: "ṭ",
+        ظ: "ẓ",
+        ع: "ʿ",
+        غ: "gh",
+        ف: "f",
+        ق: "q",
+        ك: "k",
+        ل: "l",
+        م: "m",
+        ن: "n",
+        هـ: "h",
+        و: "w",
+        ء: "",
+        ي: "y",
+      };
 
-    const notes = {};
-    const grid = document.getElementById('vowel-grid');
-    let originalLetters = [...arabicLetters];
-    let selectedVowels = [...vowels];
-    let isShuffled = false;
+      const notes = {};
+      const grid = document.getElementById("vowel-grid");
+      let originalLetters = [...arabicLetters];
+      let selectedVowels = [...vowels];
+      let isShuffled = false;
 
-    function downloadNotes() {
-      // Filter out empty or whitespace-only notes
-      const validNotes = Object.entries(notes).filter(([key, value]) => 
-        value && value.trim().length > 0
-      );
+      function downloadNotes() {
+        // Filter out empty or whitespace-only notes
+        const validNotes = Object.entries(notes).filter(
+          ([key, value]) => value && value.trim().length > 0
+        );
 
-      if (validNotes.length === 0) {
-        alert('You have no notes.');
-        return;
+        if (validNotes.length === 0) {
+          alert("You have no notes.");
+          return;
+        }
+
+        // Format notes as readable text
+        let notesText = "Arabic Alphabet With Short Vowels Notes\n";
+        notesText += "======================================\n\n";
+
+        validNotes.forEach(([key, value]) => {
+          // Extract letter and vowel info from key
+          const letter = key.charAt(0);
+          const vowelSymbol = key.charAt(1);
+          const vowelInfo = vowels.find((v) => v.symbol === vowelSymbol);
+          const vowelName = vowelInfo ? vowelInfo.name : "Unknown";
+          const transliteration =
+            transliterationMap[letter] + (vowelInfo ? vowelInfo.sound : "");
+
+          notesText += `${letter}${vowelSymbol} (${transliteration}) - ${vowelName}\n`;
+          notesText += `${value.trim()}\n\n`;
+        });
+
+        // Create and download the text file
+        const blob = new Blob([notesText], { type: "text/plain" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "arabic-letters-w-short-vowels-notes.txt";
+        a.click();
+        URL.revokeObjectURL(url);
       }
 
-      // Format notes as readable text
-      let notesText = 'Arabic Alphabet With Short Vowels Notes\n';
-      notesText += '======================================\n\n';
-      
-      validNotes.forEach(([key, value]) => {
-        // Extract letter and vowel info from key
-        const letter = key.charAt(0);
-        const vowelSymbol = key.charAt(1);
-        const vowelInfo = vowels.find(v => v.symbol === vowelSymbol);
-        const vowelName = vowelInfo ? vowelInfo.name : 'Unknown';
-        const transliteration = transliterationMap[letter] + (vowelInfo ? vowelInfo.sound : '');
-        
-        notesText += `${letter}${vowelSymbol} (${transliteration}) - ${vowelName}\n`;
-        notesText += `${value.trim()}\n\n`;
-      });
-
-      // Create and download the text file
-      const blob = new Blob([notesText], { type: 'text/plain' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'arabic-letters-w-short-vowels-notes.txt';
-      a.click();
-      URL.revokeObjectURL(url);
-    }
-
-    function clearNotes() {
-      if (confirm('Are you sure you want to clear all notes? This action cannot be undone.')) {
-        Object.keys(notes).forEach(key => delete notes[key]);
-        document.querySelectorAll('.notes-box').forEach(box => box.value = '');
-      }
-    }
-
-    function playAudio(event, audioFile) {
-      event.stopPropagation();
-      const audio = new Audio(`audio/${audioFile}`);
-      const button = event.currentTarget;
-
-      audio.addEventListener('loadstart', () => { button.style.opacity = '0.7'; });
-      audio.addEventListener('canplaythrough', () => { button.style.opacity = '1'; });
-      audio.addEventListener('error', () => {
-        console.error('Audio failed:', audioFile);
-        button.style.backgroundColor = 'rgba(255, 100, 100, 0.3)';
-        setTimeout(() => {
-          button.style.backgroundColor = 'rgba(0,0,0,0.1)';
-        }, 1000);
-      });
-
-      audio.play().catch(console.error);
-      button.style.transform = 'scale(0.9)';
-      setTimeout(() => { button.style.transform = 'scale(1)'; }, 150);
-    }
-
-    function flipAllCards() {
-      document.querySelectorAll('.flashcard').forEach(card => {
-        card.classList.toggle('flipped');
-      });
-    }
-
-    function toggleSelector() {
-      const panel = document.getElementById('selector-panel');
-      const isHidden = window.getComputedStyle(panel).display === 'none';
-      panel.style.display = isHidden ? 'block' : 'none';
-    }
-
-    function applySelection() {
-      const letterCheckboxes = document.querySelectorAll('.letter-checkbox');
-      const vowelCheckboxes = document.querySelectorAll('.vowel-checkbox');
-      const orderSelect = document.getElementById('order-select');
-
-      const selected = Array.from(letterCheckboxes)
-        .filter(cb => cb.checked)
-        .map(cb => arabicLetters[cb.value]);
-
-      selectedVowels = Array.from(vowelCheckboxes)
-        .filter(cb => cb.checked)
-        .map(cb => vowels[cb.value]);
-
-      originalLetters = [...selected];
-
-      if (orderSelect.value === 'out') {
-        isShuffled = true;
-        renderFlashcards(shuffleArray([...originalLetters]), selectedVowels);
-      } else {
-        isShuffled = false;
-        renderFlashcards(originalLetters, selectedVowels);
-      }
-    }
-
-    function shuffleArray(array) {
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-      }
-      return array;
-    }
-
-    function renderCheckboxes() {
-      const container = document.getElementById('checkboxes-container');
-      container.innerHTML = '';
-
-      arabicLetters.forEach((letter, index) => {
-        const label = document.createElement('label');
-        label.innerHTML = `<input type="checkbox" class="letter-checkbox" value="${index}" checked> ${letter}`;
-        container.appendChild(label);
-      });
-    }
-
-    function selectAllCheckboxes() {
-      document.querySelectorAll('.letter-checkbox').forEach(cb => cb.checked = true);
-    }
-
-    function deselectAllCheckboxes() {
-      document.querySelectorAll('.letter-checkbox').forEach(cb => cb.checked = false);
-    }
-
-    function renderVowelCheckboxes() {
-      const container = document.getElementById('vowel-checkboxes-container');
-      container.innerHTML = '';
-
-      vowels.forEach((vowel, index) => {
-        const label = document.createElement('label');
-        label.innerHTML = `
-          <input type="checkbox" class="vowel-checkbox" value="${index}" checked> ${vowel.name}
-        `;
-        container.appendChild(label);
-      });
-    }
-
-    function getCurrentSelectedLetters() {
-      const letterCheckboxes = document.querySelectorAll('.letter-checkbox');
-      return Array.from(letterCheckboxes)
-        .filter(cb => cb.checked)
-        .map(cb => arabicLetters[cb.value]);
-    }
-
-    function getCurrentSelectedVowels() {
-      const vowelCheckboxes = document.querySelectorAll('.vowel-checkbox');
-      return Array.from(vowelCheckboxes)
-        .filter(cb => cb.checked)
-        .map(cb => vowels[cb.value]);
-    }
-
-    function renderFlashcards(letters, vowelsToUse = vowels) {
-  grid.innerHTML = '';
-
-  const allCards = [];
-
-  letters.forEach(letter => {
-    vowelsToUse.forEach(vowel => {
-      const audioFile = `${letter}${vowel.name}.mp3`;
-      const card = document.createElement('div');
-      card.className = 'flashcard';
-
-      const cardInner = document.createElement('div');
-      cardInner.className = 'card-inner';
-
-      const front = document.createElement('div');
-      front.className = 'card-front';
-      const span = document.createElement('span');
-      span.textContent = letter + vowel.symbol;
-      span.style.textShadow = '0 2px 4px rgba(0, 0, 0, 0.3)';
-      front.appendChild(span);
-
-      const back = document.createElement('div');
-      back.className = 'card-back';
-
-      const translit = document.createElement('div');
-      translit.textContent = transliterationMap[letter] + vowel.sound;
-      back.appendChild(translit);
-
-      const audioControls = document.createElement('div');
-      audioControls.className = 'audio-controls';
-      const button = document.createElement('button');
-      button.className = 'speaker-btn';
-      button.onclick = (e) => playAudio(e, audioFile);
-      button.innerHTML = `<svg class="speaker-icon" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>`;
-      audioControls.appendChild(button);
-      back.appendChild(audioControls);
-
-      const textarea = document.createElement('textarea');
-      textarea.className = 'notes-box';
-      const key = `${letter}${vowel.symbol}`;
-      textarea.placeholder = 'Your notes';
-      textarea.value = notes[key] || '';
-      textarea.dataset.letter = key;
-      textarea.addEventListener('input', (e) => {
-        notes[key] = e.target.value;
-      });
-      back.appendChild(textarea);
-
-      cardInner.appendChild(front);
-      cardInner.appendChild(back);
-      card.appendChild(cardInner);
-
-      card.addEventListener('click', (e) => {
+      function clearNotes() {
         if (
-          e.target.closest('.notes-box') ||
-          e.target.closest('.speaker-btn')
-        ) return;
-        card.classList.toggle('flipped');
-      });
+          confirm(
+            "Are you sure you want to clear all notes? This action cannot be undone."
+          )
+        ) {
+          Object.keys(notes).forEach((key) => delete notes[key]);
+          document
+            .querySelectorAll(".notes-box")
+            .forEach((box) => (box.value = ""));
+        }
+      }
 
-      allCards.push(card);
-    });
-  });
+      function playAudio(event, audioFile) {
+        event.stopPropagation();
+        const audio = new Audio(`audio/${audioFile}`);
+        const button = event.currentTarget;
 
-  if (isShuffled) {
-    shuffleArray(allCards);
-  }
+        audio.addEventListener("loadstart", () => {
+          button.style.opacity = "0.7";
+        });
+        audio.addEventListener("canplaythrough", () => {
+          button.style.opacity = "1";
+        });
+        audio.addEventListener("error", () => {
+          console.error("Audio failed:", audioFile);
+          button.style.backgroundColor = "rgba(255, 100, 100, 0.3)";
+          setTimeout(() => {
+            button.style.backgroundColor = "rgba(0,0,0,0.1)";
+          }, 1000);
+        });
 
-  const row = document.createElement('div');
-  row.className = 'row'; // This flex-wraps automatically per screen width
+        audio.play().catch(console.error);
+        button.style.transform = "scale(0.9)";
+        setTimeout(() => {
+          button.style.transform = "scale(1)";
+        }, 150);
+      }
 
-  allCards.forEach(card => row.appendChild(card));
+      function flipAllCards() {
+        document.querySelectorAll(".flashcard").forEach((card) => {
+          card.classList.toggle("flipped");
+        });
+      }
 
-  grid.appendChild(row);
-}
+      function toggleSelector() {
+        const panel = document.getElementById("selector-panel");
+        const isHidden = window.getComputedStyle(panel).display === "none";
+        panel.style.display = isHidden ? "block" : "none";
+      }
 
+      function applySelection() {
+        const letterCheckboxes = document.querySelectorAll(".letter-checkbox");
+        const vowelCheckboxes = document.querySelectorAll(".vowel-checkbox");
+        const orderSelect = document.getElementById("order-select");
 
-    document.addEventListener('DOMContentLoaded', () => {
-      const select = document.getElementById('order-select');
-      const shuffleBtn = document.getElementById('shuffle-btn');
+        const selected = Array.from(letterCheckboxes)
+          .filter((cb) => cb.checked)
+          .map((cb) => arabicLetters[cb.value]);
 
-      renderCheckboxes();
-      renderVowelCheckboxes();
-      renderFlashcards(originalLetters, selectedVowels);
+        selectedVowels = Array.from(vowelCheckboxes)
+          .filter((cb) => cb.checked)
+          .map((cb) => vowels[cb.value]);
 
-      select.addEventListener('change', (e) => {
-        const currentSelectedLetters = getCurrentSelectedLetters();
-        const currentSelectedVowels = getCurrentSelectedVowels();
-        
-        if (e.target.value === 'out') {
+        originalLetters = [...selected];
+
+        if (orderSelect.value === "out") {
           isShuffled = true;
-          shuffleBtn.style.display = 'inline-block';
-          renderFlashcards(shuffleArray([...currentSelectedLetters]), currentSelectedVowels);
+          renderFlashcards(shuffleArray([...originalLetters]), selectedVowels);
         } else {
           isShuffled = false;
-          shuffleBtn.style.display = 'none';
-          renderFlashcards(currentSelectedLetters, currentSelectedVowels);
+          renderFlashcards(originalLetters, selectedVowels);
         }
-      });
+      }
 
-      shuffleBtn.addEventListener('click', () => {
-        const currentSelectedLetters = getCurrentSelectedLetters();
-        const currentSelectedVowels = getCurrentSelectedVowels();
-        renderFlashcards(shuffleArray([...currentSelectedLetters]), currentSelectedVowels);
+      function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+      }
+
+      function renderCheckboxes() {
+        const container = document.getElementById("checkboxes-container");
+        container.innerHTML = "";
+
+        arabicLetters.forEach((letter, index) => {
+          const label = document.createElement("label");
+          label.innerHTML = `<input type="checkbox" class="letter-checkbox" value="${index}" checked> ${letter}`;
+          container.appendChild(label);
+        });
+      }
+
+      function selectAllCheckboxes() {
+        document
+          .querySelectorAll(".letter-checkbox")
+          .forEach((cb) => (cb.checked = true));
+      }
+
+      function deselectAllCheckboxes() {
+        document
+          .querySelectorAll(".letter-checkbox")
+          .forEach((cb) => (cb.checked = false));
+      }
+
+      function renderVowelCheckboxes() {
+        const container = document.getElementById("vowel-checkboxes-container");
+        container.innerHTML = "";
+
+        vowels.forEach((vowel, index) => {
+          const label = document.createElement("label");
+          label.innerHTML = `
+          <input type="checkbox" class="vowel-checkbox" value="${index}" checked> ${vowel.name}
+        `;
+          container.appendChild(label);
+        });
+      }
+
+      function getCurrentSelectedLetters() {
+        const letterCheckboxes = document.querySelectorAll(".letter-checkbox");
+        return Array.from(letterCheckboxes)
+          .filter((cb) => cb.checked)
+          .map((cb) => arabicLetters[cb.value]);
+      }
+
+      function getCurrentSelectedVowels() {
+        const vowelCheckboxes = document.querySelectorAll(".vowel-checkbox");
+        return Array.from(vowelCheckboxes)
+          .filter((cb) => cb.checked)
+          .map((cb) => vowels[cb.value]);
+      }
+
+      function renderFlashcards(letters, vowelsToUse = vowels) {
+        grid.innerHTML = "";
+
+        const allCards = [];
+
+        letters.forEach((letter) => {
+          vowelsToUse.forEach((vowel) => {
+            const audioFile = `${letter}${vowel.name}.mp3`;
+            const card = document.createElement("div");
+            card.className = "flashcard";
+
+            const cardInner = document.createElement("div");
+            cardInner.className = "card-inner";
+
+            const front = document.createElement("div");
+            front.className = "card-front";
+            const span = document.createElement("span");
+            span.textContent = letter + vowel.symbol;
+            span.style.textShadow = "0 2px 4px rgba(0, 0, 0, 0.3)";
+            front.appendChild(span);
+
+            // Creating speaker button for the front
+            const speakerBtnFront = document.createElement("button");
+            speakerBtnFront.className = "speaker-btn-front";
+            speakerBtnFront.onclick = (event) => playAudio(event, audioFile);
+
+            // Creating speaker icon SVG
+            speakerBtnFront.innerHTML = `
+            <svg class="speaker-icon" viewBox="0 0 24 24">
+              <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+            </svg>
+            `;
+
+            // Appending speaker button to the front
+            front.appendChild(speakerBtnFront);
+
+            const back = document.createElement("div");
+            back.className = "card-back";
+
+            const translit = document.createElement("div");
+            translit.textContent = transliterationMap[letter] + vowel.sound;
+            back.appendChild(translit);
+
+            const audioControls = document.createElement("div");
+            audioControls.className = "audio-controls";
+            const button = document.createElement("button");
+            button.className = "speaker-btn";
+            button.onclick = (e) => playAudio(e, audioFile);
+            button.innerHTML = `<svg class="speaker-icon" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>`;
+            audioControls.appendChild(button);
+            back.appendChild(audioControls);
+
+            const textarea = document.createElement("textarea");
+            textarea.className = "notes-box";
+            const key = `${letter}${vowel.symbol}`;
+            textarea.placeholder = "Your notes";
+            textarea.value = notes[key] || "";
+            textarea.dataset.letter = key;
+            textarea.addEventListener("input", (e) => {
+              notes[key] = e.target.value;
+            });
+            back.appendChild(textarea);
+
+            cardInner.appendChild(front);
+            cardInner.appendChild(back);
+            card.appendChild(cardInner);
+
+            card.addEventListener("click", (e) => {
+              if (
+                e.target.closest(".notes-box") ||
+                e.target.closest(".speaker-btn")
+              )
+                return;
+              card.classList.toggle("flipped");
+            });
+
+            allCards.push(card);
+          });
+        });
+
+        if (isShuffled) {
+          shuffleArray(allCards);
+        }
+
+        const row = document.createElement("div");
+        row.className = "row"; // This flex-wraps automatically per screen width
+
+        allCards.forEach((card) => row.appendChild(card));
+
+        grid.appendChild(row);
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const select = document.getElementById("order-select");
+        const shuffleBtn = document.getElementById("shuffle-btn");
+
+        renderCheckboxes();
+        renderVowelCheckboxes();
+        renderFlashcards(originalLetters, selectedVowels);
+
+        select.addEventListener("change", (e) => {
+          const currentSelectedLetters = getCurrentSelectedLetters();
+          const currentSelectedVowels = getCurrentSelectedVowels();
+
+          if (e.target.value === "out") {
+            isShuffled = true;
+            shuffleBtn.style.display = "inline-block";
+            renderFlashcards(
+              shuffleArray([...currentSelectedLetters]),
+              currentSelectedVowels
+            );
+          } else {
+            isShuffled = false;
+            shuffleBtn.style.display = "none";
+            renderFlashcards(currentSelectedLetters, currentSelectedVowels);
+          }
+        });
+
+        shuffleBtn.addEventListener("click", () => {
+          const currentSelectedLetters = getCurrentSelectedLetters();
+          const currentSelectedVowels = getCurrentSelectedVowels();
+          renderFlashcards(
+            shuffleArray([...currentSelectedLetters]),
+            currentSelectedVowels
+          );
+        });
       });
-    });
-  </script>
-</body>
+    </script>
+  </body>
 </html>
