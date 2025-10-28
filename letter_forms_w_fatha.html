@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Letter Forms with Fatha</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@300;400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400..700&family=Scheherazade+New:wght@400;500;600;700&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(180deg, rgb(106, 180, 112) 0%, #3d7736 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 260px;
+            height: 100vh;
+            background-color: #234E3C;
+            padding-top: 2rem;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar ul li {
+            margin: 0;
+        }
+
+        .sidebar ul li a {
+            display: block;
+            padding: 1rem 1.5rem;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            border-left: 4px solid transparent;
+            transition: background 0.3s, border-left 0.3s;
+        }
+
+        .sidebar ul li a:hover {
+            background-color: #2F6D53;
+            border-left: 4px solid #A0E5BA;
+        }
+
+        .sidebar ul li a.active {
+            background-color: #2F6D53;
+            border-left: 4px solid #A0E5BA;
+            font-weight: 600;
+        }
+
+        .container {
+            margin-left: 260px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: calc(100vw - 260px);
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                flex-direction: row;
+                justify-content: space-around;
+                position: relative;
+            }
+
+            .sidebar ul {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-around;
+            }
+
+            .sidebar ul li a {
+                padding: 0.8rem;
+                font-size: 0.9rem;
+                border-left: none;
+                border-bottom: 2px solid transparent;
+            }
+
+            .sidebar ul li a:hover,
+            .sidebar ul li a.active {
+                background-color: #2F6D53;
+                border-bottom: 2px solid #A0E5BA;
+            }
+
+            .container {
+                margin-left: 0;
+                margin-top: 4rem;
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            margin-top: 3rem;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        .header p {
+            font-size: 2rem;
+            font-weight: 300;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        .table-container {
+            background: linear-gradient(135deg, #acffa9 0%, #2d6526 100%);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            margin: 2rem auto;
+            max-width: 1200px;
+            width: 90%;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            direction: rtl;
+        }
+
+        th {
+            background: linear-gradient(135deg, #92d88f 0%, #34622e 100%);
+            border: 1px solid rgba(30, 75, 52, 0.881);
+            color: white;
+            padding: 1rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        th:first-child {
+            border-top-right-radius: 10px;
+        }
+
+        th:last-child {
+            border-top-left-radius: 10px;
+        }
+
+        td {
+            padding: 1.5rem;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(30, 75, 52, 0.881);
+            transition: all 0.3s ease;
+        }
+
+        tr{
+          transition: transform 0.5s;
+        }
+
+        tr:last-child td:first-child {
+            border-bottom-right-radius: 10px;
+        }
+
+        tr:last-child td:last-child {
+            border-bottom-left-radius: 10px;
+        }
+
+        td:hover {
+            background: linear-gradient(135deg, #ffffff 0%, #e3c1ff 100%);
+        }
+
+        tr:hover{
+            transform: scale(1.02);
+        }
+
+        .arabic-letter {
+            font-family: "Scheherazade New", serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: #d22424;
+        }
+
+        .arabic-word {
+            font-family: "Scheherazade New", serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2d4835;
+            margin-bottom: 0.5rem;
+        }
+
+        .separated-word {
+            font-family: 'Amiri', serif;
+            font-size: 1.5rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        .column-letter {
+            background: #c8e6c9;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .header p {
+                font-size: 1rem;
+            }
+
+            .table-container {
+                padding: 1rem;
+                overflow-x: auto;
+            }
+
+            th {
+                font-size: 1rem;
+                padding: 0.8rem 0.5rem;
+            }
+
+            td {
+                padding: 1rem 0.5rem;
+            }
+
+            .arabic-letter {
+                font-size: 2rem;
+            }
+
+            .arabic-word {
+                font-size: 1.8rem;
+            }
+
+            .separated-word {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="sidebar">
+        <ul>
+            <li><a href="index.html">Arabic Alphabet Flashcards</a></li>
+            <li><a href="alphabet_with_vowels.html">Arabic Alphabet with Vowels Flashcards</a></li>
+            <li><a href="letter_forms_w_fatha.html" class="active">Letter Forms with Fatha</a></li>
+            <li><a href="working_on_it.html">3-Letter Root Words</a></li>
+            <li><a href="working_on_it.html">ETC</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="header">
+            <h1>Letter Forms with Fatha</h1>
+            <p>Explore how each Arabic letter changes form in different word positions</p>
+        </div>
+
+        <div class="table-container"> 
+            <table id="letter-forms-table">
+                <thead>
+                    <tr>
+                        <th>Letter</th>
+                        <th>Letter at<br>Beginning</th>
+                        <th>Letter at<br>Middle</th>
+                        <th>Letter at<br>End</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const letterForms = [
+            { letter: 'أَ', beginning: { word: 'أَخَذَ', separated: 'أَ خَ ذَ' }, middle: { word: 'سَأَلَ', separated: 'سَ أَ لَ' }, end: { word: 'بَدَأَ', separated: 'بَ دَ أَ' } },
+            { letter: 'بَ', beginning: { word: 'بَسَطَ', separated: 'بَ سَ طَ' }, middle: { word: 'عَبَدَ', separated: 'عَ بَ دَ' }, end: { word: 'كَتَبَ', separated: 'كَ تَ بَ' } },
+            { letter: 'تَ', beginning: { word: 'تَرَكَ', separated: 'تَ رَ كَ' }, middle: { word: 'فَتَحَ', separated: 'فَ تَ حَ' }, end: { word: 'بَهَتَ', separated: 'بَ هَـ تَ' } },
+            { letter: 'ثَ', beginning: { word: 'ثَلَبَ', separated: 'ثَ لَ بَ' }, middle: { word: 'مَثَلَ', separated: 'مَ ثَ لَ' }, end: { word: 'بَحَثَ', separated: 'بَ حَ ثَ' } },
+            { letter: 'جَ', beginning: { word: 'جَعَلَ', separated: 'جَ عَ لَ' }, middle: { word: 'سَجَدَ', separated: 'سَ جَ دَ' }, end: { word: 'وَلَجَ', separated: 'وَ لَ جَ' } },
+            { letter: 'حَ', beginning: { word: 'حَمَدَ', separated: 'حَ مَ دَ' }, middle: { word: 'لَحَمَ', separated: 'لَ حَ مَ' }, end: { word: 'فَتَحَ', separated: 'فَ تَ حَ' } },
+            { letter: 'خَ', beginning: { word: 'خَلَعَ', separated: 'خَ لَ عَ' }, middle: { word: 'بَخَعَ', separated: 'بَ خَ عَ' }, end: { word: 'سَلَخَ', separated: 'سَ لَ خَ' } },
+            { letter: 'دَ', beginning: { word: 'دَمَعَ', separated: 'دَ مَ عَ' }, middle: { word: 'صَدَمَ', separated: 'صَ دَ مَ' }, end: { word: 'فَسَدَ', separated: 'فَ سَ دَ' } },
+            { letter: 'ذَ', beginning: { word: 'ذَكَرَ', separated: 'ذَ كَ رَ' }, middle: { word: 'كَذَبَ', separated: 'كَ ذَ بَ' }, end: { word: 'نَبَذَ', separated: 'نَ بَ ذَ' } },
+            { letter: 'رَ', beginning: { word: 'رَفَعَ', separated: 'رَ فَ عَ' }, middle: { word: 'عَرَضَ', separated: 'عَ رَ ضَ' }, end: { word: 'عَصَرَ', separated: 'عَ صَ رَ' } },
+            { letter: 'زَ', beginning: { word: 'زَرَ عَ', separated: 'زَ رَ عَ' }, middle: { word: 'نَزَ غَ', separated: 'نَ زَ غَ' }, end: { word: 'لَمَزَ', separated: 'لَ مَ زَ' } },
+            { letter: 'سَ', beginning: { word: 'سَكَنَ', separated: 'سَ كَ نَ' }, middle: { word: 'كَسَبَ', separated: 'كَ سَ بَ' }, end: { word: 'عَبَسَ', separated: 'عَ بَ سَ' } },
+            { letter: 'شَ', beginning: { word: 'شَفَعَ', separated: 'شَ فَ عَ' }, middle: { word: 'كَشَفَ', separated: 'كَ شَ فَ' }, end: { word: 'خَمَشَ', separated: 'خَ مَ شَ' } },
+            { letter: 'صَ', beginning: { word: 'صَرَ عَ', separated: 'صَ رَ عَ' }, middle: { word: 'نَصَحَ', separated: 'نَ صَ حَ' }, end: { word: 'نَكَصَ', separated: 'نَ كَ صَ' } },
+            { letter: 'ضَ', beginning: { word: 'ضَرَبَ', separated: 'ضَ رَ بَ' }, middle: { word: 'حَضَرَ', separated: 'حَ ضَ رَ' }, end: { word: 'رَفَضَ', separated: 'رَ فَ ضَ' } },
+            { letter: 'طَ', beginning: { word: 'طَرَحَ', separated: 'طَ رَ حَ' }, middle: { word: 'خَطَرَ', separated: 'خَ طَ رَ' }, end: { word: 'وَسَطَ', separated: 'وَ سَ طَ' } },
+            { letter: 'ظَ', beginning: { word: 'ظَعَنَ', separated: 'ظَ عَ نَ' }, middle: { word: 'نَظَرَ', separated: 'نَ ظَ رَ' }, end: { word: 'وَعَظَ', separated: 'وَ عَ ظَ' } },
+            { letter: 'عَ', beginning: { word: 'عَقَدَ', separated: 'عَ قَ دَ' }, middle: { word: 'فَعَلَ', separated: 'فَ عَ لَ' }, end: { word: 'جَمَعَ', separated: 'جَ مَ عَ' } },
+            { letter: 'غَ', beginning: { word: 'غَرَسَ', separated: 'غَ رَ سَ' }, middle: { word: 'شَغَلَ', separated: 'شَ غَ لَ' }, end: { word: 'بَلَغَ', separated: 'بَ لَ غَ' } },
+            { letter: 'فَ', beginning: { word: 'فَقَدَ', separated: 'فَ قَ دَ' }, middle: { word: 'نَفَعَ', separated: 'نَ فَ عَ' }, end: { word: 'عَطَفَ', separated: 'عَ طَ فَ' } },
+            { letter: 'قَ', beginning: { word: 'قَصَدَ', separated: 'قَ صَ دَ' }, middle: { word: 'سَقَطَ', separated: 'سَ قَ طَ' }, end: { word: 'خَلَقَ', separated: 'خَ لَ قَ' } },
+            { letter: 'كَ', beginning: { word: 'كَتَمَ', separated: 'كَ تَ مَ' }, middle: { word: 'سَكَبَ', separated: 'سَ كَ بَ' }, end: { word: 'مَسَكَ', separated: 'مَ سَ كَ' } },
+            { letter: 'لَ', beginning: { word: 'لَمَسَ', separated: 'لَ مَ سَ' }, middle: { word: 'خَلَقَ', separated: 'خَ لَ قَ' }, end: { word: 'فَصَلَ', separated: 'فَ صَ لَ' } },
+            { letter: 'مَ', beginning: { word: 'مَرَجَ', separated: 'مَ رَ جَ' }, middle: { word: 'حَمَلَ', separated: 'حَ مَ لَ' }, end: { word: 'حَكَمَ', separated: 'حَ كَ مَ' } },
+            { letter: 'نَ', beginning: { word: 'نَشَأَ', separated: 'نَ شَ أَ' }, middle: { word: 'مَنَعَ', separated: 'مَ نَ عَ' }, end: { word: 'وَزَنَ', separated: 'وَ زَ نَ' } },
+            { letter: 'هَـ', beginning: { word: 'هَزَمَ', separated: 'هَـ زَ مَ' }, middle: { word: 'نَهَجَ', separated: 'نَ هَـ جَ' }, end: { word: 'أَلَهَ', separated: 'أَ لَ هَـ' } },
+            { letter: 'وَ', beginning: { word: 'وَجَدَ', separated: 'وَ جَ دَ' }, middle: { word: 'عَوَدَ', separated: 'عَ وَ دَ' }, end: { word: 'دَعَوَ', separated: 'دَ عَ وَ' } },
+            { letter: 'يَ', beginning: { word: 'يَسَرَ', separated: 'يَ سَ رَ' }, middle: { word: 'بَيَعَ', separated: 'بَ يَ عَ' }, end: { word: '- - -', separated: '' } }
+        ];
+
+        function renderTable() {
+            const tbody = document.getElementById('table-body');
+            
+            letterForms.forEach(form => {
+                const row = document.createElement('tr');
+                
+                // Column 1: Letter with Fatha
+                const letterCell = document.createElement('td');
+                letterCell.className = 'column-letter';
+                letterCell.innerHTML = `<div class="arabic-letter">${form.letter}</div>`;
+                row.appendChild(letterCell);
+                
+                // Column 2: Beginning
+                const beginningCell = document.createElement('td');
+                beginningCell.innerHTML = `
+                    <div class="separated-word">${form.beginning.separated}</div>
+                    <div class="arabic-word">${form.beginning.word}</div>
+                `;
+                row.appendChild(beginningCell);
+                
+                // Column 3: Middle
+                const middleCell = document.createElement('td');
+                middleCell.innerHTML = `
+                    <div class="separated-word">${form.middle.separated}</div>
+                    <div class="arabic-word">${form.middle.word}</div>
+                `;
+                row.appendChild(middleCell);
+                
+                // Column 4: End
+                const endCell = document.createElement('td');
+                endCell.innerHTML = `
+                    <div class="separated-word">${form.end.separated}</div>
+                    <div class="arabic-word">${form.end.word}</div>
+                `;
+                row.appendChild(endCell);
+                
+                tbody.appendChild(row);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', renderTable);
+    </script>
+</body>
+</html>
